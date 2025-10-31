@@ -1,0 +1,230 @@
+1. Quản lý người dùng (User)
+    Đăng ký tài khoản (POST /api/auth/register) jwt
+    Đăng nhập tài khoản (POST /api/auth/login)
+    Đăng xuất (nếu dùng JWT thì chỉ xóa token phía client)
+2. Quản lý sản phẩm (Product)
+    Lấy danh sách sản phẩm (GET /api/products?filter=...)
+    Lấy chi tiết sản phẩm (GET /api/products/:id)
+    Tìm kiếm, lọc, phân trang sản phẩm (GET /api/products?search=...&page=...)
+    Thêm/sửa/xóa sản phẩm (admin) (POST/PUT/DELETE /api/products)
+3. Quản lý danh mục (Category)
+    Lấy danh sách danh mục (GET /api/categories)
+    Thêm/sửa/xóa danh mục (admin) (POST/PUT/DELETE /api/categories)
+4. Quản lý giỏ hàng (Cart)
+    Thêm sản phẩm vào giỏ (POST /api/cart)
+    Lấy giỏ hàng của user (GET /api/cart)
+    Cập nhật số lượng/xóa sản phẩm khỏi giỏ (PUT/DELETE /api/cart/:itemId)
+5. Quản lý đơn hàng (Order)
+    Tạo đơn hàng mới (POST /api/orders)
+    Lấy danh sách đơn hàng của user (GET /api/orders)
+    Lấy chi tiết đơn hàng (GET /api/orders/:id)
+    Quản lý đơn hàng (admin) (GET/PUT/DELETE /api/orders)
+6. Đánh giá sản phẩm (Review)
+    Thêm đánh giá sản phẩm (POST /api/products/:id/reviews)
+    Xóa/sửa đánh giá (user hoặc admin) (PUT/DELETE /api/reviews/:id)
+7. Quản lý thương hiệu, bộ lọc, banner, v.v. (nếu có)
+    Lấy danh sách thương hiệu (GET /api/brands)
+    Lấy danh sách banner, (GET /api/banners)
+8. Các chức năng khác
+    Thống kê doanh thu, sản phẩm bán chạy (admin)
+
+
+DATABASE:
+
+{
+  "TABLES": [
+    {
+      "table_name": "NOTIFICATIONS",
+      "columns": {
+        "id": "Int",
+        "notification_name": "varchar(255)",
+        "notification_type": "varchar(100)",
+        "notification_slug": "text",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "ORDER_ADDRESS",
+      "columns": {
+        "id": "Int",
+        "province": "varchar(100)",
+        "district": "varchar(100)",
+        "ward": "varchar(100)",
+        "detail": "varchar(255)",
+        "user_phone": "varchar(20)",
+        "user_name": "varchar(100)"
+      }
+    },
+    {
+      "table_name": "NOTIFICATION_USERS_LIST",
+      "columns": {
+        "id": "Int",
+        "user_id": "Int",
+        "is_read": "boolean"
+      }
+    },
+    {
+      "table_name": "ARTICLES",
+      "columns": {
+        "id": "Int",
+        "user_id": "Int",
+        "article_title": "varchar(255)",
+        "article_short_description": "varchar(255)",
+        "article_img": "text",
+        "article_content": "text",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "USERS",
+      "columns": {
+        "id": "Int",
+        "user_email": "varchar(255)",
+        "user_password": "varchar(255)",
+        "user_name": "varchar(100)",
+        "user_gender": "varchar(10)",
+        "user_birth": "date",
+        "user_active": "boolean",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "REVIEW_USER_INFO",
+      "columns": {
+        "user_id": "Int",
+        "user_name": "varchar(100)",
+        "user_avatar": "text"
+      }
+    },
+    {
+      "table_name": "ORDERS",
+      "columns": {
+        "id": "Int",
+        "customer_id": "Int",
+        "staff_id": "Int",
+        "order_total_cost": "decimal(10, 2)",
+        "order_status": "varchar(50)",
+        "order_shipping_cost": "decimal(10, 2)",
+        "order_payment_cost": "decimal(10, 2)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "ARTICLE_INFO",
+      "columns": {
+        "id": "Int",
+        "article_id": "Int",
+        "author": "varchar(255)",
+        "published_date": "date"
+      }
+    },
+    {
+      "table_name": "CARTS",
+      "columns": {
+        "id": "Int",
+        "user_id": "Int",
+        "product_id": "Int",
+        "variant_id": "Int",
+        "quantity": "Int",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "ORDER_DETAILS",
+      "columns": {
+        "id": "Int",
+        "order_id": "Int",
+        "product_id": "Int",
+        "variant_id": "Int",
+        "quantity": "Int",
+        "unit_price": "decimal(10, 2)"
+      }
+    },
+    {
+      "table_name": "PRODUCT_IMGS",
+      "columns": {
+        "id": "Int",
+        "product_id": "Int",
+        "name": "varchar(255)",
+        "value": "text"
+      }
+    },
+    {
+      "table_name": "BRANDS",
+      "columns": {
+        "id": "Int",
+        "name": "varchar(100)",
+        "varchar": "varchar(100)"
+      }
+    },
+    {
+      "table_name": "PRODUCTS",
+      "columns": {
+        "id": "Int",
+        "brand_id": "Int",
+        "category_id": "Int",
+        "product_name": "varchar(255)",
+        "product_slug": "varchar(255)",
+        "product_short_description": "text",
+        "product_description": "text",
+        "product_sold_quantity": "Int",
+        "product_avg_rating": "decimal(3, 2)",
+        "product_buy_price": "decimal(10, 2)",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "PRODUCT_VARIANTS",
+      "columns": {
+        "id": "Int",
+        "product_id": "Int",
+        "variant_name": "varchar(255)",
+        "variant_slug": "varchar(255)",
+        "price": "decimal(10, 2)",
+        "discount_amount": "decimal(10, 2)",
+        "is_available": "boolean",
+        "in_stock": "Int",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "CATEGORIES",
+      "columns": {
+        "id": "Int",
+        "category_name": "varchar(255)",
+        "category_slug": "varchar(255)",
+        "category_type": "varchar(100)",
+        "category_img": "text",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "REVIEWS",
+      "columns": {
+        "id": "Int",
+        "product_id": "Int",
+        "product_variant_id": "Int",
+        "rating": "Int",
+        "review_text": "text",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    {
+      "table_name": "VARIANT_IMGS",
+      "columns": {
+        "id": "Int",
+        "variant_id": "Int",
+        "name": "varchar(255)",
+        "value": "text"
+      }
+    }
+  ]
+}
