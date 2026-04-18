@@ -138,7 +138,7 @@ function App() {
                     path="banners-promotions"
                     element={<BannerPromotionManagement />}
                   />
-                  <Route path="reviews" element={<AdminReviews />} />
+                 <Route path="reviews" element={<AdminReviews />} />
                   <Route path="articles" element={<AdminArticles />} />
                 </Route>
 

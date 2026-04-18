@@ -46,9 +46,10 @@ const AdminLayout = () => {
       label: 'Banners',
       path: '/admin/banners-promotions',
     },
+    
     { icon: FiStar, label: 'Đánh giá', path: '/admin/reviews' },
     { icon: FiFileText, label: 'Bài viết', path: '/admin/articles' },
-    // { icon: FiSettings, label: 'Cài đặt', path: '/admin/settings' },
+    { icon: FiSettings, label: 'Cài đặt', path: '/admin/settings' },
   ];
 
   return (

@@ -208,6 +208,7 @@ const Dashboard = () => {
               <h5 className="mb-0">Sản phẩm bán chạy</h5>
               <FiTrendingUp className="text-muted" />
             </div>
+
             <div className="card-body">
               {dashboardData.top_products.length > 0 ? (
                 <div className="list-group list-group-flush">
@@ -261,6 +262,7 @@ const Dashboard = () => {
                 <p className="text-muted">Không có dữ liệu</p>
               )}
             </div>
+
           </div>
         </div>
       </div>

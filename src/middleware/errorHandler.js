@@ -17,17 +17,17 @@ const errorHandler = (err, req, res, next) => {
         error.message = 'Referenced resource does not exist';
         error.statusCode = 400;
         break;
+        break;
+      case 'ECONNREFUSED':
+        error.message = 'Database connection failed';
+        error.statusCode = 500
       case '23502': // Not null violation
         error.message = 'Required field is missing';
         error.statusCode = 400;
         break;
       case '42P01': // Undefined table
         error.message = 'Database table not found';
-        error.statusCode = 500;
-        break;
-      case 'ECONNREFUSED':
-        error.message = 'Database connection failed';
-        error.statusCode = 500;
+        error.statusCode = 500;;
         break;
       default:
         error.message = 'Database error';
